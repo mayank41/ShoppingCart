@@ -2,11 +2,11 @@ package model.impl;
 
 import model.Item;
 
-public class Wafers implements Item {
-    private float price = 5.0f;
+public class BourbonBiscuit implements Item {
+    private float price = 20.0f;
     private int quantity;
 
-    public Wafers() {}
+    public BourbonBiscuit() {}
 
     @Override
     public float getTotalPrice() {

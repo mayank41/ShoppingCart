@@ -2,18 +2,17 @@ package model.impl;
 
 import model.Item;
 
-public class Wafers implements Item {
+public class ParleGBiscuit implements Item {
     private float price = 5.0f;
     private int quantity;
 
-    public Wafers() {}
+    public ParleGBiscuit() {}
 
     @Override
     public float getTotalPrice() {
         return price*quantity;
     }
 
-    @Override
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
