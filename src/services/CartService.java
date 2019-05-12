@@ -3,31 +3,36 @@ package services;
 import models.Cart;
 import models.Item;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
 
 public class CartService {
 
-    Cart cart;
+    private Cart cart;
 
     public CartService(Cart cart) {
         this.cart = cart;
     }
 
     public void printReceiptOfCart() {
-        for(Item item : cart.getItems()) {
-            System.out.println("Item Total Price including tax: " + item.getTotalPrice() + ". Total item tax: " + item.getTotalTax());
+        for(Map.Entry<Item, Integer> itemToQuantityPair : cart.getItemsWithQuantity().entrySet()) {
+            System.out.println("Item Total Price including tax: " +
+                    (itemToQuantityPair.getKey().getPriceIncludingTax()*itemToQuantityPair.getValue()) +
+                    ". Total item tax: " + itemToQuantityPair.getKey().getTotalTax());
         }
+
+        System.out.println("Total Price: "  + cart.getTotalPriceOfCart());
     }
 
     public void addItemToCart(Item item) {
         if(isItemPresentInCart(cart, item)) {
-            for(Item cartItem : cart.getItems()) {
+            for(Map.Entry<Item, Integer> cartItem : cart.getItemsWithQuantity().entrySet()) {
                 if(cartItem == item) {
-                    cartItem.setQuantity(cartItem.getQuantity() + 1);
+                    cartItem.setValue(cartItem.getValue() + 1);
                 }
             }
         } else {
-            cart.getItems().add(item);
+            cart.getItemsWithQuantity().put(item, 1);
         }
     }
 
@@ -35,18 +40,20 @@ public class CartService {
         if (!isItemPresentInCart(cart, item)) {
             return;
         }
-        for(Item cartItem : cart.getItems()) {
-            if(cartItem == item) {
-                if (cartItem.getQuantity() > item.getQuantity()) {
-                    cartItem.setQuantity(cartItem.getQuantity() - 1);
+        Iterator<Map.Entry<Item, Integer>> itemToQuantityPairIterator = cart.getItemsWithQuantity().entrySet().iterator();
+        while (itemToQuantityPairIterator.hasNext()) {
+            Map.Entry<Item, Integer> itemToQuantityPair = itemToQuantityPairIterator.next();
+            if(itemToQuantityPair.getKey() == item) {
+                if(itemToQuantityPair.getValue() > 1) {
+                    itemToQuantityPair.setValue(itemToQuantityPair.getValue() - 1);
                 } else {
-                    cart.getItems().remove(item);
+                    itemToQuantityPairIterator.remove();
                 }
             }
         }
     }
 
-    public boolean isItemPresentInCart(Cart cart, Item item) {
-        return cart.getItems().contains(item);
+    private boolean isItemPresentInCart(Cart cart, Item item) {
+        return cart.getItemsWithQuantity().keySet().contains(item);
     }
 }
