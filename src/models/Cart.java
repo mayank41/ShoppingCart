@@ -1,36 +1,24 @@
 package models;
 
-import services.CartService;
-
-import java.util.List;
+import java.util.Map;
 
 public class Cart {
-    private List<Item> items;
-    private float totalValue = 0;
+    private Map<Item, Integer> itemToQuantityMap;
 
-    public Cart(List<Item> items) {
-        this.items = items;
+    public Cart(Map<Item, Integer> itemToQuantityMap) {
+        this.itemToQuantityMap = itemToQuantityMap;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public float getTotalValue() {
-        return totalValue;
+    public  Map<Item, Integer> getItemsWithQuantity() {
+        return itemToQuantityMap;
     }
 
     public float getTotalPriceOfCart() {
-        items.forEach(item -> totalValue +=item.getTotalPrice());
-        return totalValue;
-    }
-
-    public void update(Cart cart, CartService cartService, Item item, int quantity) {
-        if(!cartService.isItemPresentInCart(cart, item)) {
-            cart.getItems().add(item);
-        } else  {
-
+        float totalValue = 0;
+        for(Map.Entry<Item, Integer> itemToQuantityPair : itemToQuantityMap.entrySet()) {
+            totalValue += (itemToQuantityPair.getKey().getPriceIncludingTax())*itemToQuantityPair.getValue();
         }
+        return totalValue;
     }
 
 }

@@ -13,23 +13,17 @@ public class ParleGBiscuit implements Item {
     }
 
     @Override
-    public float getTotalPrice() {
-        return price*quantity + getTotalTax();
-    }
-
-    @Override
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public int getQuantity() {
-        return this.quantity;
+    public float getPriceIncludingTax() {
+        return price + getTotalTax();
     }
 
     @Override
     public float getTotalTax() {
-        float totalTax = (price*quantity*taxPercent)/100;
-        return totalTax;
+        return (price*taxPercent)/100;
+    }
+
+    @Override
+    public float getPrice() {
+        return price;
     }
 }
