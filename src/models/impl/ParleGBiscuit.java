@@ -21,4 +21,9 @@ public class ParleGBiscuit implements Item {
     public float getTotalTax() {
         return (price*taxPercent)/100;
     }
+
+    @Override
+    public float getPrice() {
+        return price;
+    }
 }

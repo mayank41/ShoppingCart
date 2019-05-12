@@ -16,9 +16,11 @@ public class CartService {
 
     public void printReceiptOfCart() {
         for(Map.Entry<Item, Integer> itemToQuantityPair : cart.getItemsWithQuantity().entrySet()) {
-            System.out.println("Item Total Price including tax: " +
-                    (itemToQuantityPair.getKey().getPriceIncludingTax()*itemToQuantityPair.getValue()) +
-                    ". Total item tax: " + itemToQuantityPair.getKey().getTotalTax());
+            System.out.println("Total Item Price: " +
+                    itemToQuantityPair.getKey().getPrice()*itemToQuantityPair.getValue() +
+                    ". Total item tax: " + itemToQuantityPair.getKey().getTotalTax()*itemToQuantityPair.getValue() +
+                    "Item Total Price including tax: " +
+                    itemToQuantityPair.getKey().getPriceIncludingTax()*itemToQuantityPair.getValue());
         }
 
         System.out.println("Total Price: "  + cart.getTotalPriceOfCart());
@@ -27,7 +29,7 @@ public class CartService {
     public void addItemToCart(Item item) {
         if(isItemPresentInCart(cart, item)) {
             for(Map.Entry<Item, Integer> cartItem : cart.getItemsWithQuantity().entrySet()) {
-                if(cartItem == item) {
+                if(cartItem.getKey() == item) {
                     cartItem.setValue(cartItem.getValue() + 1);
                 }
             }

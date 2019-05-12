@@ -18,11 +18,10 @@ public class ShoppingCartApp { public static void main(String[] args) throws Exc
         Wafers wafers = new Wafers(10, 20);
         cartService.addItemToCart(wafers);
         cartService.printReceiptOfCart();
-        System.out.println("Hi");
 
         cartService.reduceItemQuantityFromCart(bourbonBiscuit);
-        //cartService.reduceItemQuantityFromCart(bourbonBiscuit1);
-        cartService.reduceItemQuantityFromCart(wafers);
+        cartService.reduceItemQuantityFromCart(bourbonBiscuit);
+        //cartService.reduceItemQuantityFromCart(wafers);
 
         cartService.printReceiptOfCart();
     }

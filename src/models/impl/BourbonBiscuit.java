@@ -13,11 +13,16 @@ public class BourbonBiscuit implements Item {
 
     @Override
     public float getPriceIncludingTax() {
-        return price + getTotalTax();
+        return getPrice() + getTotalTax();
     }
 
     @Override
     public float getTotalTax() {
         return (price*taxPercent)/100;
+    }
+
+    @Override
+    public float getPrice() {
+        return price;
     }
 }
